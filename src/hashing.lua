@@ -19,16 +19,44 @@ sha256 = function(data)
     }
 
     local function padding(data)
-        table.insert(data, 0)
-        while #data % 448 ~= 0 do 
-            table.insert(data, 0)
-        end
-        
-        local length = #data * 8
-        table.insert(data, length)
-        return data
+       local bit_len = #data * 8 -- lenght in bits 
+       data = data .. "\x80" -- append 1 bit (or 0x80 in hex)
+         while (#data * 8) % 512 ~= 448 do
+            data = data .. "\x00" -- append 0 bits (or 0x00 in hex)
+         end
+         -- append the original message length as a 64-bit big-endian integer
+         data = data .. string.char(
+            bitLen >> 56 & 0xFF,
+            bitLen >> 48 & 0xFF,
+            bitLen >> 40 & 0xFF,
+            bitLen >> 32 & 0xFF,
+            bitLen >> 24 & 0xFF,
+            bitLen >> 16 & 0xFF,
+            bitLen >> 8 & 0xFF,
+            bitLen & 0xFF
+         )
+            return data
     end
+    -- hash values
+    H0 = 0x6a09e667
+    H1 = 0xbb67ae85
+    H2 = 0x3c6ef372
+    H3 = 0xa54ff53a
+    H4 = 0x510e527f
+    H5 = 0x9b05688c
+    H6 = 0x1f83d9ab
+    H7 = 0x5be0cd19
+
+    local function compress(data)
+        local chunks = {}
+        for i = 1, #data, 64 do  -- chunk up the data into 64-byte chunks (512 bits)
+            table.insert(chunks, data:sub(i, i + 63))
+        end
+    
+        
 end
+
+
 
 
 
