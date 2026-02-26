@@ -71,8 +71,28 @@ sha256 = function(data)
             end
         
         end
+    
+        local a, b, c, d, e, f, g, h = H0, H1, H2, H3, H4, H5, H6, H7
+        for i = 1, 64 do  -- main loop of the compression function (basically scrambling the hash values based on the message schedule and the round constants)
+            local S1 = bit_ror(e, 6) ~ bit_ror(e, 11) ~ bit_ror(e, 25)
+            local ch = (e & f) ~ ((~e) & g)
+            local temp1 = (h + S1 + ch + k[i] + w[i]) & 0xFFFFFFFF
+            local S0 = bit_ror(a, 2) ~ bit_ror(a, 13) ~ bit_ror(a, 22)
+            local maj = (a & b) ~ (a & c) ~ (b & c)
+            local temp2 = (S0 + maj) & 0xFFFFFFFF
+            
+            h = g
+            g = f
+            f = e
+            e = (d + temp1) & 0xFFFFFFFF
+            d = c
+            c = b
+            b = a
+            a = (temp1 + temp2) & 0xFFFFFFFF
+        end
         
 
+        
     end
     
 
