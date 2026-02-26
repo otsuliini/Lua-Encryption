@@ -47,14 +47,23 @@ sha256 = function(data)
     H6 = 0x1f83d9ab
     H7 = 0x5be0cd19
 
-    local function compress(data)
+    local function make_chunks(data)
         local chunks = {}
         for i = 1, #data, 64 do  -- chunk up the data into 64-byte chunks (512 bits)
             table.insert(chunks, data:sub(i, i + 63))
         end
-    
         
+        return chunks
+    end
+
+    local function process_chunk(chunk)
+        for i = 1, 64
+
+    end
+    
+
 end
+
 
 
 
