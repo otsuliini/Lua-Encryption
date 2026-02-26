@@ -1,6 +1,6 @@
 local string = require("string")
 local u32 = require("nums.uintn").u32
-
+ -- bitwise right rotation
 local function bit_ror(x, y)
   return ((x >> y) | (x << (32 - y))) & 0xFFFFFFFF
 end
@@ -91,9 +91,23 @@ sha256 = function(data)
             a = (temp1 + temp2) & 0xFFFFFFFF
         end
         
-
+    
         
+        return table.concat{ -- return the final hash values as a hexadecimal string (concatenated together)
+        string.format("%08x", H0),
+        string.format("%08x", H1),
+        string.format("%08x", H2),
+        string.format("%08x", H3),
+        string.format("%08x", H4),
+        string.format("%08x", H5),
+        string.format("%08x", H6),
+        string.format("%08x", H7),
+        }
     end
+
+    
+
+
     
 
 end
