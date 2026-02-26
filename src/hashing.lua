@@ -1,5 +1,6 @@
 local string = require("string")
-local u32 = require("nums.uintn").u32
+
+
  -- bitwise right rotation
 local function bit_ror(x, y)
   return ((x >> y) | (x << (32 - y))) & 0xFFFFFFFF
@@ -92,28 +93,29 @@ sha256 = function(data)
         end
         
     
+
+        return (hash[1] + a) & 0xFFFFFFFF,
+            (hash[2] + b) & 0xFFFFFFFF,
+            (hash[3] + c) & 0xFFFFFFFF,
+            (hash[4] + d) & 0xFFFFFFFF,
+            (hash[5] + e) & 0xFFFFFFFF,
+            (hash[6] + f) & 0xFFFFFFFF,
+            (hash[7] + g) & 0xFFFFFFFF,
+            (hash[8] + h) & 0xFFFFFFFF
         
-        return table.concat{ -- return the final hash values as a hexadecimal string (concatenated together)
-        string.format("%08x", H0),
-        string.format("%08x", H1),
-        string.format("%08x", H2),
-        string.format("%08x", H3),
-        string.format("%08x", H4),
-        string.format("%08x", H5),
-        string.format("%08x", H6),
-        string.format("%08x", H7),
-        }
     end
 
     
 
 
     
+    local padded_data = padding(data)
+    local chunks = make_chunks(padded_data)
+    local processed_data = process_chunk(chunks)
+    print(string.format("%08x%08x%08x%08x%08x%08x%08x%08x", processed_data))
 
+    
 end
-
-
-
 
 
 
