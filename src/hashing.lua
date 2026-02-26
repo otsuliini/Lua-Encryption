@@ -59,12 +59,16 @@ sha256 = function(data)
     local function process_chunk(chunk)
         local w = {} -- message schedule array
         for i = 1, 64 do
-            if i <= 16 then
+            if i <= 16 then--SHA-256 message schedule 
                 w[i] = string.byte(chunk, (i - 1) * 4 + 1) << 24 | -- convert 4 bytes to 32-bit words
                         string.byte(chunk, (i - 1) * 4 + 2) << 16 |
                         string.byte(chunk, (i - 1) * 4 + 3) << 8 |
                         string.byte(chunk, (i - 1) * 4 + 4)
-                        
+            else -- basically the if statement is there to because the first 16 words are the original message, and the rest are the padding and the length of the message, so we need to calculate the rest of the words based on the original message
+                local s0 = bit_ror(w[i - 15], 7) ~ bit_ror(w[i - 15], 18) ~ (w[i - 15] >> 3)  
+                local s1 = bit_ror(w[i - 2], 17) ~ bit_ror(w[i - 2], 19) ~ (w[i - 2] >> 10)
+                w[i] = (w[i - 16] + s0 + w[i - 7] + s1) & 0xFFFFFFFF
+            end
         
         end
         
