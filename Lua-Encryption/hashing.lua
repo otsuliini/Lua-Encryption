@@ -1,10 +1,10 @@
 local string = require("string")
+local utils = require("Lua-Encryption.utils")
+
 local M = {}
 
+
  -- bitwise right rotation
-local function bit_ror(x, y)
-  return ((x >> y) | (x << (32 - y))) & 0xFFFFFFFF
-end
 
 M.sha256_Hashing = function(data)
 
@@ -67,8 +67,8 @@ M.sha256_Hashing = function(data)
                         string.byte(chunk, (i - 1) * 4 + 3) << 8 |
                         string.byte(chunk, (i - 1) * 4 + 4)
             else -- basically the if statement is there to because the first 16 words are the original message, and the rest are the padding and the length of the message, so we need to calculate the rest of the words based on the original message
-                local s0 = bit_ror(w[i - 15], 7) ~ bit_ror(w[i - 15], 18) ~ (w[i - 15] >> 3)  
-                local s1 = bit_ror(w[i - 2], 17) ~ bit_ror(w[i - 2], 19) ~ (w[i - 2] >> 10)
+                local s0 = utils.bit_ror(w[i - 15], 7) ~ utils.bit_ror(w[i - 15], 18) ~ (w[i - 15] >> 3)  
+                local s1 = utils.bit_ror(w[i - 2], 17) ~ utils.bit_ror(w[i - 2], 19) ~ (w[i - 2] >> 10)
                 w[i] = (w[i - 16] + s0 + w[i - 7] + s1) & 0xFFFFFFFF
             end
         
@@ -76,10 +76,10 @@ M.sha256_Hashing = function(data)
     
         local a, b, c, d, e, f, g, h = H0, H1, H2, H3, H4, H5, H6, H7
         for i = 1, 64 do  -- main loop of the compression function (basically scrambling the hash values based on the message schedule and the round constants)
-            local S1 = bit_ror(e, 6) ~ bit_ror(e, 11) ~ bit_ror(e, 25)
+        local S1 = utils.bit_ror(e, 6) ~ utils.bit_ror(e, 11) ~ utils.bit_ror(e, 25)
             local ch = (e & f) ~ ((~e) & g)
             local temp1 = (h + S1 + ch + k[i] + w[i]) & 0xFFFFFFFF
-            local S0 = bit_ror(a, 2) ~ bit_ror(a, 13) ~ bit_ror(a, 22)
+            local S0 = utils.bit_ror(a, 2) ~ utils.bit_ror(a, 13) ~ utils.bit_ror(a, 22)
             local maj = (a & b) ~ (a & c) ~ (b & c)
             local temp2 = (S0 + maj) & 0xFFFFFFFF
             
