@@ -1,12 +1,19 @@
-#Lua Encryption 1.0#
-**So basically:**
+# Documentation
 
-The function **generate_salt()** returns the salt as a string.
-The function **sha25_Hashing/()** returns the hash of the provided data. (You can choose whether to include the salt or not)
+## So basically:
+A tiny pure-Lua library for learning purposes, providing password hashing (using sha256), salting, and verification.
 
-There is also a **verify** function which returns a boolean (True if inputed data matches salted hash, and False if not)
+## Functions:
 
+- `generate_salt()`
+  Returns a random salt as a string.
 
+- `sha256_Hashing(data, salt)`  
+  Returns the hash of the provided data. You can include the salt if you want.
 
+- `verify(data, salt, hash)`  
+  Returns a boolean:  
+  - `true` → input data matches the salted hash  
+  - `false` → doesn't match
 
-
+### For examples see examples/examples.lua

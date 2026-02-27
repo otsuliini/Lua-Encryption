@@ -4,7 +4,8 @@ local utils = require("Lua-Encryption.utils")
 local M = {}
 
 
- -- bitwise right rotation
+
+
 
 M.sha256_Hashing = function(data)
 
