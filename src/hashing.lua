@@ -6,7 +6,7 @@ local function bit_ror(x, y)
   return ((x >> y) | (x << (32 - y))) & 0xFFFFFFFF
 end
 
-M.sha256 = function(data)
+M.sha256_Hashing = function(data)
 
       local k = { -- round constants
       0x428a2f98, 0x71374491, 0xb5c0fbcf, 0xe9b5dba5, 0x3956c25b, 0x59f111f1, 0x923f82a4, 0xab1c5ed5,
