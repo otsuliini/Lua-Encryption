@@ -104,7 +104,6 @@ M.sha256 = function(data)
     data = padding(data)
     local chunks = make_chunks(data)
     for  _, chunk in ipairs(chunks) do
-        print("Processing chunk: " .. chunk)
         Hash = {process_chunk(chunk)}
     end
 
@@ -113,8 +112,8 @@ M.sha256 = function(data)
         result = result .. string.format("%08x", i) -- convert the hash values to hexadecimal and concatenate them to get the final hashing
     end
     
+    return result
 
-    
 end
 
 return M
