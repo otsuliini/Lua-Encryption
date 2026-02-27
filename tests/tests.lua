@@ -1,6 +1,6 @@
-local hashing = require("Lua-Encryption.hashing")
-local salting = require("Lua-Encryption.salting")
-local verify = require("Lua-Encryption.verify")
+local hashing = require("lua-encryption.hashing")
+local salting = require("lua-encryption.salting")
+local verify = require("lua-encryption.verify")
 
 local password = "Hello, World!"
 
