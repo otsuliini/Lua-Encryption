@@ -16,4 +16,4 @@ A tiny pure-Lua library for learning purposes, providing password hashing (using
   - `true` → input data matches the salted hash  
   - `false` → doesn't match
 
-### For examples see examples/examples.lua
+## For examples see examples/examples.lua
