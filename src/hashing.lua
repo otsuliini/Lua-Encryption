@@ -1,12 +1,12 @@
 local string = require("string")
-
+local M = {}
 
  -- bitwise right rotation
 local function bit_ror(x, y)
   return ((x >> y) | (x << (32 - y))) & 0xFFFFFFFF
 end
 
-sha256 = function(data)
+M.sha256 = function(data)
 
       local k = { -- round constants
       0x428a2f98, 0x71374491, 0xb5c0fbcf, 0xe9b5dba5, 0x3956c25b, 0x59f111f1, 0x923f82a4, 0xab1c5ed5,
@@ -20,13 +20,14 @@ sha256 = function(data)
     }
 
     local function padding(data)
-       local bit_len = #data * 8 -- lenght in bits 
-       data = data .. "\x80" -- append 1 bit (or 0x80 in hex)
-         while (#data * 8) % 512 ~= 448 do
+
+        local bitLen = #data * 8 -- lenght in bits 
+        data = data .. "\x80" -- append 1 bit (or 0x80 in hex)
+            while (#data * 8) % 512 ~= 448 do
             data = data .. "\x00" -- append 0 bits (or 0x00 in hex)
-         end
-         -- append the original message length as a 64-bit big-endian integer
-         data = data .. string.char(
+            end
+            -- append the original message length as a 64-bit big-endian integer
+            data = data .. string.char(
             bitLen >> 56 & 0xFF,
             bitLen >> 48 & 0xFF,
             bitLen >> 40 & 0xFF,
@@ -35,7 +36,7 @@ sha256 = function(data)
             bitLen >> 16 & 0xFF,
             bitLen >> 8 & 0xFF,
             bitLen & 0xFF
-         )
+            )
             return data
     end
     -- hash values
@@ -107,15 +108,14 @@ sha256 = function(data)
 
     
 
-
     
-    local padded_data = padding(data)
-    local chunks = make_chunks(padded_data)
-    local processed_data = process_chunk(chunks)
+    local processed_data = process_chunk(make_chunks(padding(data)))
     print(string.format("%08x%08x%08x%08x%08x%08x%08x%08x", processed_data))
 
     
 end
+
+return M
 
 
 
